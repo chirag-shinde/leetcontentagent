@@ -24,7 +24,7 @@ if not openai.api_key:
     sys.exit(1)
 
 # Configuration
-SOLUTIONS_DIR = "."  # Root directory to scan for solutions
+SOLUTIONS_DIR = "problems"  # Root directory to scan for solutions
 OUTPUT_DIR = "_solutions"  # Jekyll collection for solutions
 
 # LeetCode problem patterns in comments for different languages
@@ -192,13 +192,23 @@ Keep your response brief but informative, focusing on the key insights.
                 raise
 
 def determine_tags(solution_info: Dict) -> List[str]:
-    """Determine tags based on the solution code and language."""
+    """Determine tags based on the solution code, language, and directory structure."""
     tags = []
     code_lower = solution_info['code'].lower()
     language = solution_info['language']
+    file_path = solution_info['file_path']
     
     # Add language tag
     tags.append(language.capitalize())
+    
+    # Add topic tag based on directory structure
+    # Example: problems/two pointers/3sum.java -> tag: Two Pointers
+    path_parts = file_path.split(os.sep)
+    if len(path_parts) >= 2 and path_parts[0] == "problems":
+        topic = path_parts[1]
+        # Convert 'two pointers' to 'Two Pointers'
+        topic_tag = ' '.join(word.capitalize() for word in topic.split())
+        tags.append(topic_tag)
     
     # Add algorithm tags based on code content
     if "dynamic programming" in code_lower or "dp" in code_lower:

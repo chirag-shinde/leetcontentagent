@@ -5,9 +5,9 @@ on:
     branches:
       - main
     paths:
-      - '**.py'  # Python files
-      - '**.java' # Java files
-      - '**.go'   # Go files
+      - 'problems/**.py'  # Python files in problems directory
+      - 'problems/**.java' # Java files in problems directory
+      - 'problems/**.go'   # Go files in problems directory
   workflow_dispatch:  # Allow manual trigger
 
 jobs:
@@ -34,8 +34,8 @@ jobs:
       - name: Identify new/modified solution files
         id: changed-files
         run: |
-          # Get list of modified solution files (Python, Java, Go)
-          NEW_FILES=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep -E '\.(py|java|go)$' || echo "")
+          # Get list of modified solution files (Python, Java, Go) in the problems directory
+          NEW_FILES=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep -E 'problems/.*\.(py|java|go)$' || echo "")
           echo "Changed solution files: $NEW_FILES"
           echo "new_files=$NEW_FILES" >> $GITHUB_OUTPUT
           echo "NEW_FILES=$NEW_FILES" >> $GITHUB_ENV
