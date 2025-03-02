@@ -29,7 +29,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install openai pyyaml python-frontmatter
+          pip install requests pyyaml python-frontmatter
           
       - name: Identify new/modified solution files
         id: changed-files
@@ -43,10 +43,10 @@ jobs:
       - name: Process LeetCode solutions
         if: steps.changed-files.outputs.new_files != ''
         env:
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
           new_files: ${{ steps.changed-files.outputs.new_files }}
         run: |
-          echo "OPENAI_API_KEY is set: ${{ secrets.OPENAI_API_KEY != '' }}"
+          echo "OPENROUTER_API_KEY is set: ${{ secrets.OPENROUTER_API_KEY != '' }}"
           echo "Processing files: $NEW_FILES"
           # Set verbose logging for the script
           export DEBUG=1

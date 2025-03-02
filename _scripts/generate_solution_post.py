@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Script to analyze LeetCode solution files in Python, Java, and Go and generate blog posts
-with detailed explanations.
+with detailed explanations using OpenRouter API.
 """
 
 import os
@@ -11,22 +11,25 @@ import glob
 import yaml
 import time
 import json
+import requests
 import frontmatter
 from datetime import datetime
 from pathlib import Path
-import openai
 import traceback
 from typing import Dict, List, Tuple, Optional
 
-# Set up OpenAI client
-openai.api_key = os.environ.get("OPENAI_API_KEY")
-if not openai.api_key:
-    print("Error: OPENAI_API_KEY environment variable not set")
+# Set up OpenRouter API key
+OPENROUTER_API_KEY = os.environ.get("OPENROUTER_API_KEY")
+if not OPENROUTER_API_KEY:
+    print("Error: OPENROUTER_API_KEY environment variable not set")
     sys.exit(1)
 
 # Configuration
 SOLUTIONS_DIR = "problems"  # Root directory to scan for solutions
 OUTPUT_DIR = "_solutions"  # Jekyll collection for solutions
+
+# OpenRouter API endpoint
+OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions"
 
 # LeetCode problem patterns in comments for different languages
 # Python: # LeetCode #123: Two Sum (Easy) - https://leetcode.com/problems/two-sum/
@@ -144,7 +147,7 @@ def extract_go_code(content: str) -> str:
     return "\n".join(code_lines).strip()
 
 def generate_explanation(solution_info: Dict) -> Dict:
-    """Generate detailed explanation using OpenAI API."""
+    """Generate detailed explanation using OpenRouter API."""
     language = solution_info['language']
     
     prompt = f"""
@@ -172,21 +175,33 @@ Format your response as a JSON object with these keys:
 Keep your response brief but informative, focusing on the key insights.
 """
 
+    headers = {
+        "Authorization": f"Bearer {OPENROUTER_API_KEY}",
+        "Content-Type": "application/json",
+        "HTTP-Referer": "https://github.com/chirag-shinde/leetcontentagent"  # Optional site URL
+    }
+    
+    payload = {
+        "model": "anthropic/claude-3-opus-20240229",  # You can change to other models
+        "messages": [{"role": "user", "content": prompt}],
+        "response_format": {"type": "json_object"},  # Request JSON response
+        "temperature": 0.2
+    }
+    
     retries = 3
     while retries > 0:
         try:
-            response = openai.chat.completions.create(
-                model="gpt-3.5-turbo",  # Use the more widely available model
-                messages=[{"role": "user", "content": prompt}],
-                temperature=0.2,
-                response_format={"type": "json_object"},
-            )
+            print(f"Calling OpenRouter API for {solution_info['title']}...")
+            response = requests.post(OPENROUTER_URL, headers=headers, json=payload)
+            response.raise_for_status()  # Raise an exception for HTTP errors
             
-            result = json.loads(response.choices[0].message.content)
+            response_data = response.json()
+            result = json.loads(response_data["choices"][0]["message"]["content"])
             return result
         except Exception as e:
             retries -= 1
-            print(f"Error calling OpenAI API: {e}. Retries left: {retries}")
+            print(f"Error calling OpenRouter API: {e}. Retries left: {retries}")
+            print(f"Response: {response.text if 'response' in locals() else 'No response'}")
             if retries > 0:
                 time.sleep(5)  # Wait before retrying
             else:
@@ -382,8 +397,8 @@ def create_solution_post(solution_info: Dict, explanation: Dict) -> None:
 
 def process_solution_files() -> None:
     """Process changed solution files from git diff."""
-    print(f"OpenAI API Key present: {bool(openai.api_key)}")
-    print(f"OpenAI API Key length: {len(openai.api_key) if openai.api_key else 0}")
+    print(f"OpenRouter API Key present: {bool(OPENROUTER_API_KEY)}")
+    print(f"OpenRouter API Key length: {len(OPENROUTER_API_KEY) if OPENROUTER_API_KEY else 0}")
     
     # Get changed solution files from environment variable (set by GitHub Actions)
     changed_files_str = os.environ.get("new_files", os.environ.get("new_py_files", ""))
