@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LeetCode #15: 3Sum</title>
+    <link rel="stylesheet" href="/leetcontentagent/assets/css/main.css">
+    <link rel="stylesheet" href="/leetcontentagent/assets/css/syntax.css">
+</head>
+<body>
+    <header class="site-header">
+        <div class="container">
+            <a class="site-title" href="/leetcontentagent/">Leetcode Solution Blog</a>
+            <nav class="site-nav">
+                <a href="/leetcontentagent/" class="nav-link">Home</a>
+                <a href="/leetcontentagent/about/" class="nav-link">About</a>
+                <a href="/leetcontentagent/archive/" class="nav-link">Archive</a>
+            </nav>
+        </div>
+    </header>
+    
+    <main class="container">
+        <article class="solution">
+            <header class="solution-header">
+                <h1 class="solution-title">LeetCode 15: 3Sum</h1>
+                <div class="solution-meta">
+                    <div class="problem-info">
+                        <span class="difficulty medium">Medium</span>
+                        <span class="problem-number">#15</span>
+                        <a href="https://leetcode.com/problems/3sum/" class="leetcode-link" target="_blank">View on LeetCode</a>
+                    </div>
+                    
+                    <div class="tags">
+                        <span class="tag">Java</span>
+                        <span class="tag">Two Pointers</span>
+                        <span class="tag">Array</span>
+                    </div>
+                </div>
+            </header>
+
+            <div class="problem-statement">
+                <h2>Problem Statement</h2>
+                <p>Given an integer array nums, return all the triplets [nums[i], nums[j], nums[k]] such that i != j, i != k, and j != k, and nums[i] + nums[j] + nums[k] == 0.</p>
+            </div>
+
+            <div class="solution-approach">
+                <h2>Approach</h2>
+                <p>Sort the array and use a two-pointer approach to find triplets that sum to zero, with care to avoid duplicates.</p>
+            </div>
+
+            <div class="solution-code">
+                <h2>Code Solution (Java)</h2>
+                <pre><code class="language-java">
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+class Solution {
+    public List&lt;List&lt;Integer&gt;&gt; threeSum(int[] nums) {
+        List&lt;List&lt;Integer&gt;&gt; ans = new ArrayList&lt;&gt;();
+        Arrays.sort(nums);
+        for (int i = 0; i &lt; nums.length - 2; i++) {
+            if (i > 0 && nums[i] == nums[i - 1]) {
+                continue;
+            }
+            int j = i + 1;
+            int k = nums.length - 1;
+            while (j &lt; k) {
+                int sum = nums[i] + nums[j] + nums[k];
+                if (sum == 0) {
+                    ans.add(Arrays.asList(nums[i], nums[j], nums[k]));
+                    while (j &lt; k && nums[j] == nums[j + 1]) {
+                        j++;
+                    }
+                    while (j &lt; k && nums[k] == nums[k - 1]) {
+                        k--;
+                    }
+                    j++;
+                    k--;
+                } else if (sum &lt; 0) {
+                    j++;
+                } else {
+                    k--;
+                }
+            }
+        }
+        return ans;
+    }
+}
+                </code></pre>
+            </div>
+
+            <div class="solution-explanation">
+                <h2>Explanation</h2>
+                <p>This solution to the 3Sum problem uses a sorting and two-pointer approach.</p>
+
+                <p>First, we sort the array, which takes O(n log n) time. This allows us to efficiently find triplets that sum to zero.</p>
+
+                <p>The main algorithm works as follows:</p>
+
+                <ol>
+                    <li>We iterate through each element <code>nums[i]</code> as a potential first element of the triplet.</li>
+                    <li>For each <code>nums[i]</code>, we use two pointers <code>j</code> and <code>k</code> to find pairs that, combined with <code>nums[i]</code>, sum to zero.</li>
+                    <li>The two pointers start at <code>i+1</code> and at the end of the array.
+                        <ul>
+                            <li>If the sum is zero, we've found a valid triplet.</li>
+                            <li>If the sum is less than zero, we increment <code>j</code> to get a larger sum.</li>
+                            <li>If the sum is greater than zero, we decrement <code>k</code> to get a smaller sum.</li>
+                        </ul>
+                    </li>
+                </ol>
+
+                <p>A key challenge in this problem is avoiding duplicate triplets. We handle this by:</p>
+                <ol>
+                    <li>Skipping duplicate values for the first element (<code>nums[i]</code>)</li>
+                    <li>After finding a valid triplet, moving both <code>j</code> and <code>k</code> past any duplicate values</li>
+                </ol>
+            </div>
+
+            <div class="solution-complexity">
+                <h2>Complexity Analysis</h2>
+                <p><strong>Time Complexity:</strong> O(n²)</p>
+                <p><strong>Space Complexity:</strong> O(log n) to O(n) depending on the sorting algorithm</p>
+            </div>
+        </article>
+    </main>
+    
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-content">
+                <p>&copy; 2025 Leetcode Solution Blog</p>
+                <p>A collection of detailed Leetcode solution explanations.</p>
+            </div>
+            <div class="footer-links">
+                <a href="https://github.com/chirag-shinde/leetcontentagent" target="_blank">GitHub Repository</a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

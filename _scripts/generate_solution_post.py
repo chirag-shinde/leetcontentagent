@@ -241,13 +241,15 @@ def determine_tags(solution_info: Dict) -> List[str]:
     return tags
 
 def create_solution_post(solution_info: Dict, explanation: Dict) -> None:
-    """Create a Jekyll post file for the solution."""
+    """Create Jekyll post file and static HTML file for the solution."""
+    # Ensure directories exist
     ensure_dir(OUTPUT_DIR)
+    ensure_dir(f"solutions/{solution_info['problem_slug']}")
     
     # Determine tags based on problem title and code
     tags = determine_tags(solution_info)
     
-    # Create post content with front matter
+    # Create post content with front matter for Jekyll
     post = frontmatter.Post(
         explanation["explanation"],
         title=f"LeetCode {solution_info['problem_number']}: {solution_info['title']}",
@@ -266,16 +268,106 @@ def create_solution_post(solution_info: Dict, explanation: Dict) -> None:
         tags=tags,
     )
     
-    # Create filename with date and problem slug
+    # Create filename with date and problem slug for Jekyll collection
     date_prefix = datetime.now().strftime("%Y-%m-%d")
     filename = f"{date_prefix}-leetcode-{solution_info['problem_number']}-{solution_info['problem_slug']}.md"
     filepath = os.path.join(OUTPUT_DIR, filename)
     
-    # Write to file
+    # Write Jekyll post file
     with open(filepath, "w") as f:
         f.write(frontmatter.dumps(post))
     
-    print(f"Created solution post: {filepath}")
+    print(f"Created Jekyll post: {filepath}")
+    
+    # Create static HTML file
+    html_content = f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LeetCode #{solution_info['problem_number']}: {solution_info['title']}</title>
+    <link rel="stylesheet" href="/leetcontentagent/assets/css/main.css">
+    <link rel="stylesheet" href="/leetcontentagent/assets/css/syntax.css">
+</head>
+<body>
+    <header class="site-header">
+        <div class="container">
+            <a class="site-title" href="/leetcontentagent/">Leetcode Solution Blog</a>
+            <nav class="site-nav">
+                <a href="/leetcontentagent/" class="nav-link">Home</a>
+                <a href="/leetcontentagent/about/" class="nav-link">About</a>
+                <a href="/leetcontentagent/archive/" class="nav-link">Archive</a>
+            </nav>
+        </div>
+    </header>
+    
+    <main class="container">
+        <article class="solution">
+            <header class="solution-header">
+                <h1 class="solution-title">LeetCode {solution_info['problem_number']}: {solution_info['title']}</h1>
+                <div class="solution-meta">
+                    <div class="problem-info">
+                        <span class="difficulty {solution_info['difficulty'].lower()}">{solution_info['difficulty']}</span>
+                        <span class="problem-number">#{solution_info['problem_number']}</span>
+                        <a href="{solution_info['leetcode_url']}" class="leetcode-link" target="_blank">View on LeetCode</a>
+                    </div>
+                    
+                    <div class="tags">
+                        {" ".join([f'<span class="tag">{tag}</span>' for tag in tags])}
+                    </div>
+                </div>
+            </header>
+
+            <div class="problem-statement">
+                <h2>Problem Statement</h2>
+                {explanation['problem_statement']}
+            </div>
+
+            <div class="solution-approach">
+                <h2>Approach</h2>
+                {explanation['approach']}
+            </div>
+
+            <div class="solution-code">
+                <h2>Code Solution ({solution_info['language'].capitalize()})</h2>
+                <pre><code class="language-{solution_info['language']}">
+{solution_info['code']}
+                </code></pre>
+            </div>
+
+            <div class="solution-explanation">
+                <h2>Explanation</h2>
+                {explanation['explanation']}
+            </div>
+
+            <div class="solution-complexity">
+                <h2>Complexity Analysis</h2>
+                <p><strong>Time Complexity:</strong> {explanation['time_complexity']}</p>
+                <p><strong>Space Complexity:</strong> {explanation['space_complexity']}</p>
+            </div>
+        </article>
+    </main>
+    
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-content">
+                <p>&copy; {datetime.now().year} Leetcode Solution Blog</p>
+                <p>A collection of detailed Leetcode solution explanations.</p>
+            </div>
+            <div class="footer-links">
+                <a href="https://github.com/chirag-shinde/leetcontentagent" target="_blank">GitHub Repository</a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>"""
+
+    # Write static HTML file
+    static_filepath = f"solutions/{solution_info['problem_slug']}/index.html"
+    with open(static_filepath, "w") as f:
+        f.write(html_content)
+    
+    print(f"Created static HTML: {static_filepath}")
 
 def process_solution_files() -> None:
     """Process changed solution files from git diff."""
