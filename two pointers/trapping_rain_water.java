@@ -1,3 +1,5 @@
+// LeetCode #42: Trapping Rain Water (Hard) - https://leetcode.com/problems/trapping-rain-water/
+
 class Solution {
     public int trap(int[] A) {
       int preMax = 0;
