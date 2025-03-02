@@ -1,0 +1,246 @@
+/* Base styles */
+:root {
+    --primary-color: #0066cc;
+    --secondary-color: #4a90e2;
+    --background-color: #ffffff;
+    --text-color: #333333;
+    --light-gray: #f5f5f5;
+    --border-color: #e0e0e0;
+    --code-bg: #f8f8f8;
+    
+    /* Difficulty colors */
+    --easy-color: #00af9b;
+    --medium-color: #ffb800;
+    --hard-color: #ff2d55;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--background-color);
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Header styles */
+.site-header {
+    background-color: var(--primary-color);
+    padding: 1rem 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.site-header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.site-title {
+    color: white;
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.site-nav {
+    display: flex;
+    gap: 1.5rem;
+}
+
+.nav-link {
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.nav-link:hover {
+    text-decoration: underline;
+}
+
+/* Footer styles */
+.site-footer {
+    background-color: var(--light-gray);
+    padding: 2rem 0;
+    margin-top: 3rem;
+    border-top: 1px solid var(--border-color);
+}
+
+.footer-content {
+    margin-bottom: 1rem;
+}
+
+.footer-links a {
+    color: var(--primary-color);
+    text-decoration: none;
+}
+
+.footer-links a:hover {
+    text-decoration: underline;
+}
+
+/* Post/Solution styles */
+.post, .solution {
+    margin: 2rem 0;
+}
+
+.post-header, .solution-header {
+    margin-bottom: 2rem;
+}
+
+.post-title, .solution-title {
+    font-size: 2.2rem;
+    margin-bottom: 0.5rem;
+    color: var(--primary-color);
+}
+
+.post-meta, .solution-meta {
+    color: #666;
+    font-size: 0.9rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    align-items: center;
+}
+
+.problem-info {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.difficulty {
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-weight: bold;
+    color: white;
+}
+
+.easy {
+    background-color: var(--easy-color);
+}
+
+.medium {
+    background-color: var(--medium-color);
+}
+
+.hard {
+    background-color: var(--hard-color);
+}
+
+.problem-number {
+    font-weight: bold;
+}
+
+.leetcode-link {
+    color: var(--primary-color);
+    text-decoration: none;
+}
+
+.leetcode-link:hover {
+    text-decoration: underline;
+}
+
+.tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.tag {
+    background-color: var(--light-gray);
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+}
+
+/* Solution sections */
+.problem-statement, .solution-approach, .solution-code, .solution-explanation, .solution-complexity {
+    margin-bottom: 2rem;
+}
+
+.solution-code {
+    background-color: var(--code-bg);
+    padding: 1rem;
+    border-radius: 5px;
+    overflow-x: auto;
+}
+
+/* Home page */
+.post-list {
+    list-style: none;
+    padding: 0;
+}
+
+.post-item {
+    margin-bottom: 2rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.post-item:last-child {
+    border-bottom: none;
+}
+
+.post-link {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.post-link:hover {
+    text-decoration: underline;
+}
+
+.post-excerpt {
+    margin-top: 0.5rem;
+}
+
+.read-more {
+    display: inline-block;
+    margin-top: 0.5rem;
+    color: var(--primary-color);
+    text-decoration: none;
+}
+
+.read-more:hover {
+    text-decoration: underline;
+}
+
+/* Archive page */
+.archive-list {
+    list-style: none;
+    padding: 0;
+}
+
+.archive-item {
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: baseline;
+}
+
+.archive-date {
+    min-width: 100px;
+    color: #666;
+    font-size: 0.9rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .site-header .container {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+    
+    .post-title, .solution-title {
+        font-size: 1.8rem;
+    }
+}
