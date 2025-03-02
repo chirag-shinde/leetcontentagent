@@ -1,4 +1,5 @@
 // LeetCode #7: Reverse Integer (Medium) - https://leetcode.com/problems/reverse-integer
+// Solution approach: Using modulo to extract digits and rebuilding the number
 class Solution {
     public int reverse(int x) {
         try{
