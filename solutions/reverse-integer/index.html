@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LeetCode 7: Reverse Integer | Leetcode Solution Blog</title>
+    <link rel="stylesheet" href="/leetcontentagent/assets/css/main.css">
+    <link rel="stylesheet" href="/leetcontentagent/assets/css/syntax.css">
+</head>
+<body>
+    <header class="site-header">
+    <div class="container">
+        <a class="site-title" href="/leetcontentagent/">Leetcode Solution Blog</a>
+        <nav class="site-nav">
+            <a href="/leetcontentagent/" class="nav-link">Home</a>
+            <a href="/leetcontentagent/about/" class="nav-link">About</a>
+            <a href="/leetcontentagent/archive/" class="nav-link">Archive</a>
+        </nav>
+    </div>
+</header>
+
+    
+    <main class="container">
+        <article class="solution">
+    <header class="solution-header">
+        <h1 class="solution-title">LeetCode 7: Reverse Integer</h1>
+        <div class="solution-meta">
+            <div class="problem-info">
+                <span class="difficulty medium">Medium</span>
+                
+                <span class="problem-number">#7</span>
+                
+                
+                <a href="https://leetcode.com/problems/reverse-integer/" class="leetcode-link" target="_blank">View on LeetCode</a>
+                
+            </div>
+            
+            <div class="tags">
+                
+                <span class="tag">Java</span>
+                
+                <span class="tag">Math</span>
+                
+            </div>
+        </div>
+    </header>
+
+    <div class="problem-statement">
+        <h2>Problem Statement</h2>
+        <p>Given a signed 32-bit integer <code class="language-plaintext highlighter-rouge">x</code>, return <code class="language-plaintext highlighter-rouge">x</code> with its digits reversed. If reversing <code class="language-plaintext highlighter-rouge">x</code> causes the value to go outside the signed 32-bit integer range <code class="language-plaintext highlighter-rouge">[-2^31, 2^31 - 1]</code>, then return <code class="language-plaintext highlighter-rouge">0</code>.</p>
+
+    </div>
+
+    <div class="solution-approach">
+        <h2>Approach</h2>
+        <p>The solution reverses the integer by repeatedly extracting the last digit using the modulo operator <code class="language-plaintext highlighter-rouge">%</code>, appending it to the result, and dividing the input by 10 to remove the last digit. It handles negative numbers by reversing the positive equivalent and negating the final result. It also checks for overflow by comparing the current result with <code class="language-plaintext highlighter-rouge">Integer.MAX_VALUE / 10</code> before appending each digit.</p>
+
+    </div>
+
+    <div class="solution-code">
+        <h2>Code Solution (Java)</h2>
+        
+          
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kn">package</span> <span class="nn">problems.math</span><span class="o">;</span>
+<span class="kd">class</span> <span class="nc">Solution</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">reverse</span><span class="o">(</span><span class="kt">int</span> <span class="n">x</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">try</span><span class="o">{</span>
+            <span class="kt">int</span> <span class="n">res</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+            <span class="kt">int</span> <span class="n">remainder</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+            <span class="kt">boolean</span> <span class="n">isNegative</span> <span class="o">=</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="o">?</span> <span class="kc">true</span> <span class="o">:</span> <span class="kc">false</span><span class="o">;</span>
+            <span class="k">if</span><span class="o">(</span><span class="n">isNegative</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">x</span> <span class="o">*=</span> <span class="o">-</span><span class="mi">1</span><span class="o">;</span>
+            <span class="o">}</span>
+            <span class="k">while</span><span class="o">(</span><span class="n">x</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="o">){</span>
+                <span class="k">if</span><span class="o">(</span><span class="n">res</span> <span class="o">&gt;</span> <span class="nc">Integer</span><span class="o">.</span><span class="na">MAX_VALUE</span> <span class="o">/</span> <span class="mi">10</span><span class="o">)</span> <span class="o">{</span>
+                    <span class="k">return</span>  <span class="mi">0</span><span class="o">;</span>
+                <span class="o">}</span>
+                <span class="n">res</span> <span class="o">*=</span> <span class="mi">10</span><span class="o">;</span>
+                <span class="n">remainder</span> <span class="o">=</span> <span class="n">x</span> <span class="o">%</span> <span class="mi">10</span><span class="o">;</span>
+                <span class="n">res</span> <span class="o">+=</span> <span class="n">remainder</span><span class="o">;</span>
+                <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="o">/</span><span class="mi">10</span><span class="o">;</span>
+            <span class="o">}</span>
+            <span class="k">return</span> <span class="n">isNegative</span><span class="o">?</span> <span class="n">res</span> <span class="o">*</span> <span class="o">-</span><span class="mi">1</span><span class="o">:</span> <span class="n">res</span><span class="o">;</span>
+        <span class="o">}</span> <span class="k">catch</span><span class="o">(</span><span class="nc">NumberFormatException</span> <span class="n">n</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="mi">0</span><span class="o">;</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+          </code></pre></figure>
+
+        
+    </div>
+
+    <div class="solution-explanation">
+        <h2>Explanation</h2>
+        <ol>
+  <li>Initialize <code class="language-plaintext highlighter-rouge">res</code> to store the reversed integer, <code class="language-plaintext highlighter-rouge">remainder</code> for the last digit, and <code class="language-plaintext highlighter-rouge">isNegative</code> flag to handle negative inputs.</li>
+  <li>If <code class="language-plaintext highlighter-rouge">x</code> is negative, negate it and set <code class="language-plaintext highlighter-rouge">isNegative</code> to <code class="language-plaintext highlighter-rouge">true</code>.</li>
+  <li>Enter a loop that continues as long as <code class="language-plaintext highlighter-rouge">x &gt; 0</code>:
+    <ul>
+      <li>Check if appending the next digit will cause overflow by comparing <code class="language-plaintext highlighter-rouge">res</code> with <code class="language-plaintext highlighter-rouge">Integer.MAX_VALUE / 10</code>. If so, return <code class="language-plaintext highlighter-rouge">0</code>.</li>
+      <li>Multiply <code class="language-plaintext highlighter-rouge">res</code> by 10 to shift the existing digits left.</li>
+      <li>Extract the last digit of <code class="language-plaintext highlighter-rouge">x</code> using <code class="language-plaintext highlighter-rouge">x % 10</code> and store it in <code class="language-plaintext highlighter-rouge">remainder</code>.</li>
+      <li>Add <code class="language-plaintext highlighter-rouge">remainder</code> to <code class="language-plaintext highlighter-rouge">res</code>.</li>
+      <li>Divide <code class="language-plaintext highlighter-rouge">x</code> by 10 to remove the last digit.</li>
+    </ul>
+  </li>
+  <li>If <code class="language-plaintext highlighter-rouge">isNegative</code> is <code class="language-plaintext highlighter-rouge">true</code>, negate <code class="language-plaintext highlighter-rouge">res</code>.</li>
+  <li>Return the final reversed integer <code class="language-plaintext highlighter-rouge">res</code>.</li>
+</ol>
+
+    </div>
+
+    <div class="solution-complexity">
+        <h2>Complexity Analysis</h2>
+        <p><strong>Time Complexity:</strong> O(log x), where x is the input integer. The number of iterations depends on the number of digits in x, which is logarithmic.</p>
+        <p><strong>Space Complexity:</strong> O(1), as the solution uses only a constant amount of extra space.</p>
+    </div>
+</article>
+
+    </main>
+    
+    <footer class="site-footer">
+    <div class="container">
+        <div class="footer-content">
+            <p>&copy; 2025 Leetcode Solution Blog</p>
+            <p>A collection of detailed Leetcode solution explanations.</p>
+        </div>
+        <div class="footer-links">
+            <a href="https://github.com/chirag-shinde/leetcontentagent" target="_blank">GitHub Repository</a>
+        </div>
+    </div>
+</footer>
+
+    
+    <script src="/leetcontentagent/assets/js/main.js"></script>
+</body>
+</html>

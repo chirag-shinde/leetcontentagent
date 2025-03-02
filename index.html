@@ -78,6 +78,37 @@
             <a href="/leetcontentagent/solutions/3sum/" class="read-more">Read full solution &rarr;</a>
         </li>
         
+        <li class="post-item">
+            <h2>
+                <a class="post-link" href="/leetcontentagent/solutions/reverse-integer/">LeetCode 7: Reverse Integer</a>
+            </h2>
+            <div class="post-meta">
+                <time datetime="2025-03-02T18:31:32+00:00">March 02, 2025</time>
+                
+                <span class="difficulty medium">Medium</span>
+                
+            </div>
+            <div class="post-excerpt">
+                <ol>
+  <li>Initialize <code class="language-plaintext highlighter-rouge">res</code> to store the reversed integer, <code class="language-plaintext highlighter-rouge">remainder</code> for the last digit, and <code class="language-plaintext highlighter-rouge">isNegative</code> flag to handle negative inputs.</li>
+  <li>If <code class="language-plaintext highlighter-rouge">x</code> is negative, negate it and set <code class="language-plaintext highlighter-rouge">isNegative</code> to <code class="language-plaintext highlighter-rouge">true</code>.</li>
+  <li>Enter a loop that continues as long as <code class="language-plaintext highlighter-rouge">x &gt; 0</code>:
+    <ul>
+      <li>Check if appending the next digit will cause overflow by comparing <code class="language-plaintext highlighter-rouge">res</code> with <code class="language-plaintext highlighter-rouge">Integer.MAX_VALUE / 10</code>. If so, return <code class="language-plaintext highlighter-rouge">0</code>.</li>
+      <li>Multiply <code class="language-plaintext highlighter-rouge">res</code> by 10 to shift the existing digits left.</li>
+      <li>Extract the last digit of <code class="language-plaintext highlighter-rouge">x</code> using <code class="language-plaintext highlighter-rouge">x % 10</code> and store it in <code class="language-plaintext highlighter-rouge">remainder</code>.</li>
+      <li>Add <code class="language-plaintext highlighter-rouge">remainder</code> to <code class="language-plaintext highlighter-rouge">res</code>.</li>
+      <li>Divide <code class="language-plaintext highlighter-rouge">x</code> by 10 to remove the last digit.</li>
+    </ul>
+  </li>
+  <li>If <code class="language-plaintext highlighter-rouge">isNegative</code> is <code class="language-plaintext highlighter-rouge">true</code>, negate <code class="language-plaintext highlighter-rouge">res</code>.</li>
+  <li>Return the final reversed integer <code class="language-plaintext highlighter-rouge">res</code>.</li>
+</ol>
+
+            </div>
+            <a href="/leetcontentagent/solutions/reverse-integer/" class="read-more">Read full solution &rarr;</a>
+        </li>
+        
     </ul>
     
     
