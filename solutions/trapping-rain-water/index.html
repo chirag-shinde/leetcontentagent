@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LeetCode #42: Trapping Rain Water</title>
+    <link rel="stylesheet" href="/leetcontentagent/assets/css/main.css">
+    <link rel="stylesheet" href="/leetcontentagent/assets/css/syntax.css">
+</head>
+<body>
+    <header class="site-header">
+        <div class="container">
+            <a class="site-title" href="/leetcontentagent/">Leetcode Solution Blog</a>
+            <nav class="site-nav">
+                <a href="/leetcontentagent/" class="nav-link">Home</a>
+                <a href="/leetcontentagent/about/" class="nav-link">About</a>
+                <a href="/leetcontentagent/archive/" class="nav-link">Archive</a>
+            </nav>
+        </div>
+    </header>
+    
+    <main class="container">
+        <article class="solution">
+            <header class="solution-header">
+                <h1 class="solution-title">LeetCode 42: Trapping Rain Water</h1>
+                <div class="solution-meta">
+                    <div class="problem-info">
+                        <span class="difficulty hard">Hard</span>
+                        <span class="problem-number">#42</span>
+                        <a href="https://leetcode.com/problems/trapping-rain-water/" class="leetcode-link" target="_blank">View on LeetCode</a>
+                    </div>
+                    
+                    <div class="tags">
+                        <span class="tag">Java</span>
+                        <span class="tag">Array</span>
+                        <span class="tag">Two Pointers</span>
+                        <span class="tag">Dynamic Programming</span>
+                    </div>
+                </div>
+            </header>
+
+            <div class="problem-statement">
+                <h2>Problem Statement</h2>
+                <p>Given n non-negative integers representing an elevation map where the width of each bar is 1, compute how much water it can trap after raining.</p>
+            </div>
+
+            <div class="solution-approach">
+                <h2>Approach</h2>
+                <p>Use prefix and postfix max arrays to determine the water level at each position.</p>
+            </div>
+
+            <div class="solution-code">
+                <h2>Code Solution (Java)</h2>
+                <pre><code class="language-java">
+class Solution {
+    public int trap(int[] A) {
+      int preMax = 0;
+      int postMax = 0;
+      int[] prefixMax = new int[A.length];
+      int[] postfixMax = new int[A.length];
+      for(int i = 0; i &lt; A.length; i++) {
+          preMax = Math.max(preMax, A[i]);
+          prefixMax[i] = preMax;
+          postMax = Math.max(postMax, A[A.length - i - 1]);
+          postfixMax[A.length - i - 1] = postMax;
+      }
+      int total = 0;
+      for(int i = 0; i &lt; A.length; i++) {
+          total += Math.min(prefixMax[i], postfixMax[i]) - A[i];
+      }
+      return total;
+    }
+}
+                </code></pre>
+            </div>
+
+            <div class="solution-explanation">
+                <h2>Explanation</h2>
+                <p>This solution to the Trapping Rain Water problem uses an efficient approach with prefix and postfix maximum arrays.</p>
+
+                <p>The key insight is that the amount of water that can be trapped at any position <code>i</code> depends on the minimum of the maximum heights to the left and right of that position, minus the height at the current position.</p>
+
+                <p>Here's how the algorithm works:</p>
+
+                <ol>
+                    <li>We create two arrays:
+                        <ul>
+                            <li><code>prefixMax</code>: Stores the maximum height seen so far from the left</li>
+                            <li><code>postfixMax</code>: Stores the maximum height seen so far from the right</li>
+                        </ul>
+                    </li>
+                    <li>We calculate these arrays in a single pass through the input array:
+                        <ul>
+                            <li>For <code>prefixMax</code>, we iterate from left to right</li>
+                            <li>For <code>postfixMax</code>, we iterate from right to left (simultaneously in one loop)</li>
+                        </ul>
+                    </li>
+                    <li>Then we calculate the trapped water at each position:
+                        <ul>
+                            <li>At each position <code>i</code>, the water trapped is <code>min(prefixMax[i], postfixMax[i]) - A[i]</code></li>
+                            <li>If this value is negative, it means no water is trapped at that position (when the current bar is the highest)</li>
+                        </ul>
+                    </li>
+                </ol>
+            </div>
+
+            <div class="solution-complexity">
+                <h2>Complexity Analysis</h2>
+                <p><strong>Time Complexity:</strong> O(n)</p>
+                <p><strong>Space Complexity:</strong> O(n)</p>
+            </div>
+        </article>
+    </main>
+    
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-content">
+                <p>&copy; 2025 Leetcode Solution Blog</p>
+                <p>A collection of detailed Leetcode solution explanations.</p>
+            </div>
+            <div class="footer-links">
+                <a href="https://github.com/chirag-shinde/leetcontentagent" target="_blank">GitHub Repository</a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

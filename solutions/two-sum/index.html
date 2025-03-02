@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LeetCode #1: Two Sum</title>
+    <link rel="stylesheet" href="/leetcontentagent/assets/css/main.css">
+    <link rel="stylesheet" href="/leetcontentagent/assets/css/syntax.css">
+</head>
+<body>
+    <header class="site-header">
+        <div class="container">
+            <a class="site-title" href="/leetcontentagent/">Leetcode Solution Blog</a>
+            <nav class="site-nav">
+                <a href="/leetcontentagent/" class="nav-link">Home</a>
+                <a href="/leetcontentagent/about/" class="nav-link">About</a>
+                <a href="/leetcontentagent/archive/" class="nav-link">Archive</a>
+            </nav>
+        </div>
+    </header>
+    
+    <main class="container">
+        <article class="solution">
+            <header class="solution-header">
+                <h1 class="solution-title">LeetCode 1: Two Sum</h1>
+                <div class="solution-meta">
+                    <div class="problem-info">
+                        <span class="difficulty easy">Easy</span>
+                        <span class="problem-number">#1</span>
+                        <a href="https://leetcode.com/problems/two-sum/" class="leetcode-link" target="_blank">View on LeetCode</a>
+                    </div>
+                    
+                    <div class="tags">
+                        <span class="tag">Python</span>
+                        <span class="tag">Hash Table</span>
+                        <span class="tag">Array</span>
+                    </div>
+                </div>
+            </header>
+
+            <div class="problem-statement">
+                <h2>Problem Statement</h2>
+                <p>Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target. You may assume that each input would have exactly one solution, and you may not use the same element twice.</p>
+            </div>
+
+            <div class="solution-approach">
+                <h2>Approach</h2>
+                <p>Use a hash map to store previously seen numbers and their indices. For each number, check if its complement (target - current number) exists in the hash map.</p>
+            </div>
+
+            <div class="solution-code">
+                <h2>Code Solution (Python)</h2>
+                <pre><code class="language-python">
+class Solution:
+    def twoSum(self, nums, target):
+        """
+        Find the indices of two numbers that add up to the target.
+        
+        Args:
+            nums: List of integers
+            target: Integer target sum
+            
+        Returns:
+            List of two indices
+        """
+        # Using a hash map for O(n) time complexity
+        num_map = {}
+        
+        for i, num in enumerate(nums):
+            complement = target - num
+            if complement in num_map:
+                return [num_map[complement], i]
+            num_map[num] = i
+            
+        return []  # No solution found
+                </code></pre>
+            </div>
+
+            <div class="solution-explanation">
+                <h2>Explanation</h2>
+                <p>This solution to the Two Sum problem uses a hash map (dictionary in Python) to achieve an efficient one-pass solution.</p>
+
+                <p>The key insight is that we can use a hash map to remember numbers we've seen previously and their indices. This allows us to quickly check if the complement of the current number (target - current number) has already been seen.</p>
+
+                <p>Here's how the algorithm works:</p>
+
+                <ol>
+                    <li>We initialize an empty hash map <code>num_map</code> to store numbers and their indices.</li>
+                    <li>We iterate through the <code>nums</code> array:
+                        <ul>
+                            <li>For each number, we calculate its complement: <code>complement = target - num</code></li>
+                            <li>If the complement is already in the hash map, we've found our solution</li>
+                            <li>Otherwise, we add the current number and its index to the hash map</li>
+                        </ul>
+                    </li>
+                </ol>
+
+                <p>When we find a match, we return an array containing the index of the complement (stored in the hash map) and the current index.</p>
+            </div>
+
+            <div class="solution-complexity">
+                <h2>Complexity Analysis</h2>
+                <p><strong>Time Complexity:</strong> O(n)</p>
+                <p><strong>Space Complexity:</strong> O(n)</p>
+            </div>
+        </article>
+    </main>
+    
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-content">
+                <p>&copy; 2025 Leetcode Solution Blog</p>
+                <p>A collection of detailed Leetcode solution explanations.</p>
+            </div>
+            <div class="footer-links">
+                <a href="https://github.com/chirag-shinde/leetcontentagent" target="_blank">GitHub Repository</a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
