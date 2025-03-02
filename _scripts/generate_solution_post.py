@@ -196,8 +196,19 @@ Keep your response brief but informative, focusing on the key insights.
             response.raise_for_status()  # Raise an exception for HTTP errors
             
             response_data = response.json()
-            result = json.loads(response_data["choices"][0]["message"]["content"])
-            return result
+            content = response_data["choices"][0]["message"]["content"]
+            
+            # Claude sometimes includes text before the JSON, so we need to extract just the JSON part
+            # Find the first occurrence of '{' and the last occurrence of '}'
+            json_start = content.find('{')
+            json_end = content.rfind('}') + 1
+            
+            if json_start >= 0 and json_end > json_start:
+                json_content = content[json_start:json_end]
+                result = json.loads(json_content)
+                return result
+            else:
+                raise ValueError(f"Could not extract JSON from response: {content}")
         except Exception as e:
             retries -= 1
             print(f"Error calling OpenRouter API: {e}. Retries left: {retries}")
