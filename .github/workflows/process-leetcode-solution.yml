@@ -46,6 +46,10 @@ jobs:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           new_files: ${{ steps.changed-files.outputs.new_files }}
         run: |
+          echo "OPENAI_API_KEY is set: ${{ secrets.OPENAI_API_KEY != '' }}"
+          echo "Processing files: $NEW_FILES"
+          # Set verbose logging for the script
+          export DEBUG=1
           python _scripts/generate_solution_post.py
           
       # Always run the rest of the workflow even if no solution files changed

@@ -15,6 +15,7 @@ import frontmatter
 from datetime import datetime
 from pathlib import Path
 import openai
+import traceback
 from typing import Dict, List, Tuple, Optional
 
 # Set up OpenAI client
@@ -381,20 +382,29 @@ def create_solution_post(solution_info: Dict, explanation: Dict) -> None:
 
 def process_solution_files() -> None:
     """Process changed solution files from git diff."""
+    print(f"OpenAI API Key present: {bool(openai.api_key)}")
+    print(f"OpenAI API Key length: {len(openai.api_key) if openai.api_key else 0}")
+    
     # Get changed solution files from environment variable (set by GitHub Actions)
     changed_files_str = os.environ.get("new_files", os.environ.get("new_py_files", ""))
+    print(f"Changed files environment variable: '{changed_files_str}'")
     
     if not changed_files_str.strip():
         # If not in GitHub Actions, process all solution files for testing
         if not os.environ.get("GITHUB_ACTIONS"):
             changed_files = []
             for ext in [".py", ".java", ".go"]:
-                changed_files.extend(glob.glob(f"{SOLUTIONS_DIR}/**/*{ext}", recursive=True))
+                pattern = f"{SOLUTIONS_DIR}/**/*{ext}"
+                print(f"Searching for files with pattern: {pattern}")
+                found_files = glob.glob(pattern, recursive=True)
+                print(f"Found {len(found_files)} files: {found_files}")
+                changed_files.extend(found_files)
         else:
             print("No changed solution files to process")
             return
     else:
         changed_files = changed_files_str.strip().split(" ")
+        print(f"Processing changed files: {changed_files}")
     
     for file_path in changed_files:
         if not os.path.exists(file_path):
@@ -410,10 +420,13 @@ def process_solution_files() -> None:
         
         if solution_info:
             try:
+                print(f"Generating explanation for {file_path}...")
                 explanation = generate_explanation(solution_info)
+                print(f"Successfully generated explanation, creating posts...")
                 create_solution_post(solution_info, explanation)
             except Exception as e:
                 print(f"Error processing {file_path}: {e}")
+                print(f"Exception details: {traceback.format_exc()}")
 
 if __name__ == "__main__":
     ensure_dir(OUTPUT_DIR)
