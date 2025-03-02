@@ -1,6 +1,7 @@
 ---
 title: "LeetCode 1: Two Sum"
 date: 2025-03-02 22:43:00
+slug: two-sum
 problem_number: 1
 difficulty: Easy
 leetcode_url: https://leetcode.com/problems/two-sum/

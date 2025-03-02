@@ -13,7 +13,7 @@ permalink: /:title/
 collections:
   solutions:
     output: true
-    permalink: /:collection/:name/
+    permalink: /:collection/:slug/
 
 # Default front matter
 defaults:

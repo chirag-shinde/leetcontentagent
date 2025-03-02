@@ -252,6 +252,7 @@ def create_solution_post(solution_info: Dict, explanation: Dict) -> None:
         explanation["explanation"],
         title=f"LeetCode {solution_info['problem_number']}: {solution_info['title']}",
         date=datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+        slug=solution_info["problem_slug"],  # Add slug for permalink
         problem_number=solution_info["problem_number"],
         difficulty=solution_info["difficulty"],
         leetcode_url=solution_info["leetcode_url"],
@@ -278,7 +279,7 @@ def create_solution_post(solution_info: Dict, explanation: Dict) -> None:
 def process_solution_files() -> None:
     """Process changed solution files from git diff."""
     # Get changed solution files from environment variable (set by GitHub Actions)
-    changed_files_str = os.environ.get("new_files", "")
+    changed_files_str = os.environ.get("new_files", os.environ.get("new_py_files", ""))
     
     if not changed_files_str.strip():
         # If not in GitHub Actions, process all solution files for testing
