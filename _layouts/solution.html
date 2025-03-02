@@ -36,9 +36,23 @@ layout: default
 
     <div class="solution-code">
         <h2>Code Solution ({{ page.language | capitalize }})</h2>
-        {% highlight {{ page.language }} %}
+        {% if page.language == "python" %}
+          {% highlight python %}
 {{ page.code }}
-        {% endhighlight %}
+          {% endhighlight %}
+        {% elsif page.language == "java" %}
+          {% highlight java %}
+{{ page.code }}
+          {% endhighlight %}
+        {% elsif page.language == "go" %}
+          {% highlight go %}
+{{ page.code }}
+          {% endhighlight %}
+        {% else %}
+          {% highlight plaintext %}
+{{ page.code }}
+          {% endhighlight %}
+        {% endif %}
     </div>
 
     <div class="solution-explanation">
