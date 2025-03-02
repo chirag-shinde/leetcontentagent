@@ -35,8 +35,8 @@ layout: default
     </div>
 
     <div class="solution-code">
-        <h2>Code Solution</h2>
-        {% highlight python %}
+        <h2>Code Solution ({{ page.language | capitalize }})</h2>
+        {% highlight {{ page.language }} %}
 {{ page.code }}
         {% endhighlight %}
     </div>

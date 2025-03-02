@@ -1,6 +1,6 @@
 # LeetCode Solution Blog
 
-An automated blog that creates detailed explanations for LeetCode problem solutions. When you push a Python solution to this repository, a GitHub Action automatically:
+An automated blog that creates detailed explanations for LeetCode problem solutions. When you push a solution (Python, Java, or Go) to this repository, a GitHub Action automatically:
 
 1. Analyzes your solution code
 2. Generates a detailed explanation using OpenAI
@@ -11,16 +11,30 @@ An automated blog that creates detailed explanations for LeetCode problem soluti
 
 ### Adding a New LeetCode Solution
 
-1. Create a Python file with your LeetCode solution
-2. Include a comment at the top in this format:
+1. Create a file with your LeetCode solution in Python, Java, or Go
+2. Include a comment at the top in this format (language-specific comment style):
+   
+   For Python:
    ```python
    # LeetCode #123: Two Sum (Easy) - https://leetcode.com/problems/two-sum/
    ```
+   
+   For Java:
+   ```java
+   // LeetCode #123: Two Sum (Easy) - https://leetcode.com/problems/two-sum/
+   ```
+   
+   For Go:
+   ```go
+   // LeetCode #123: Two Sum (Easy) - https://leetcode.com/problems/two-sum/
+   ```
+
 3. Push the file to the repository
 4. The GitHub Action will automatically process the solution and update the blog
 
-### Example Solution Format
+### Example Solution Formats
 
+#### Python
 ```python
 # LeetCode #1: Two Sum (Easy) - https://leetcode.com/problems/two-sum/
 
@@ -46,6 +60,55 @@ class Solution:
             num_map[num] = i
             
         return []  # No solution found
+```
+
+#### Java
+```java
+// LeetCode #1: Two Sum (Easy) - https://leetcode.com/problems/two-sum/
+
+class Solution {
+    /**
+     * Find the indices of two numbers that add up to the target.
+     *
+     * @param nums Array of integers
+     * @param target Target sum
+     * @return Array of two indices
+     */
+    public int[] twoSum(int[] nums, int target) {
+        // Using a hash map for O(n) time complexity
+        Map<Integer, Integer> numMap = new HashMap<>();
+        
+        for (int i = 0; i < nums.length; i++) {
+            int complement = target - nums[i];
+            if (numMap.containsKey(complement)) {
+                return new int[] {numMap.get(complement), i};
+            }
+            numMap.put(nums[i], i);
+        }
+        
+        return new int[] {}; // No solution found
+    }
+}
+```
+
+#### Go
+```go
+// LeetCode #1: Two Sum (Easy) - https://leetcode.com/problems/two-sum/
+
+func twoSum(nums []int, target int) []int {
+    // Using a hash map for O(n) time complexity
+    numMap := make(map[int]int)
+    
+    for i, num := range nums {
+        complement := target - num
+        if idx, found := numMap[complement]; found {
+            return []int{idx, i}
+        }
+        numMap[num] = i
+    }
+    
+    return []int{} // No solution found
+}
 ```
 
 ## Setup Instructions

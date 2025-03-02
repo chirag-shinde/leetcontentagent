@@ -5,7 +5,9 @@ on:
     branches:
       - main
     paths:
-      - '**.py'  # Trigger on Python files
+      - '**.py'  # Python files
+      - '**.java' # Java files
+      - '**.go'   # Go files
   workflow_dispatch:  # Allow manual trigger
 
 jobs:
@@ -29,16 +31,16 @@ jobs:
           python -m pip install --upgrade pip
           pip install openai pyyaml python-frontmatter
           
-      - name: Identify new/modified Python files
+      - name: Identify new/modified solution files
         id: changed-files
         run: |
-          # Get list of modified python files
-          NEW_PY_FILES=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep '\.py$' || echo "")
-          echo "Changed Python files: $NEW_PY_FILES"
-          echo "new_py_files=$NEW_PY_FILES" >> $GITHUB_OUTPUT
+          # Get list of modified solution files (Python, Java, Go)
+          NEW_FILES=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep -E '\.(py|java|go)$' || echo "")
+          echo "Changed solution files: $NEW_FILES"
+          echo "new_files=$NEW_FILES" >> $GITHUB_OUTPUT
           
       - name: Process LeetCode solutions
-        if: steps.changed-files.outputs.new_py_files != ''
+        if: steps.changed-files.outputs.new_files != ''
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         run: |

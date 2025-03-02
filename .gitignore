@@ -1,0 +1,32 @@
+# Jekyll generated files
+_site/
+.sass-cache/
+.jekyll-cache/
+.jekyll-metadata
+
+# Ruby dependencies
+.bundle/
+vendor/
+
+# Local development
+.DS_Store
+*.swp
+*~
+
+# Node modules (if used)
+node_modules/
+
+# Python environment
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.env
+env/
+venv/
+ENV/
+
+# Distribution / packaging
+dist/
+build/
+*.egg-info/
