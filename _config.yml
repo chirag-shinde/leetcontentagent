@@ -1,0 +1,41 @@
+# Site settings
+title: Leetcode Solution Blog
+description: Detailed explanations of my Leetcode solutions
+baseurl: "/leetcontentagent"
+url: "https://chirag-shinde.github.io"
+
+# Build settings
+markdown: kramdown
+highlighter: rouge
+permalink: /:title/
+
+# Collections
+collections:
+  solutions:
+    output: true
+    permalink: /:collection/:name/
+
+# Default front matter
+defaults:
+  - scope:
+      path: ""
+      type: "posts"
+    values:
+      layout: "post"
+  - scope:
+      path: ""
+      type: "solutions"
+    values:
+      layout: "solution"
+  - scope:
+      path: ""
+    values:
+      layout: "default"
+
+# Exclude from processing
+exclude:
+  - _scripts
+  - README.md
+  - .gitignore
+  - Gemfile
+  - Gemfile.lock

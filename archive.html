@@ -1,0 +1,30 @@
+---
+layout: default
+title: Solution Archive
+permalink: /archive/
+---
+
+<div class="archive">
+    <h1 class="page-heading">All LeetCode Solutions</h1>
+    
+    {% assign solutions_by_year = site.solutions | group_by_exp: "solution", "solution.date | date: '%Y'" %}
+    
+    {% for year in solutions_by_year %}
+    <h2 class="archive-year">{{ year.name }}</h2>
+    <ul class="archive-list">
+        {% assign solutions = year.items | sort: 'date' | reverse %}
+        {% for solution in solutions %}
+        <li class="archive-item">
+            <span class="archive-date">{{ solution.date | date: "%b %d" }}</span>
+            <a href="{{ solution.url | relative_url }}">{{ solution.title }}</a>
+            {% if solution.difficulty %}
+            <span class="difficulty {{ solution.difficulty | downcase }}">{{ solution.difficulty }}</span>
+            {% endif %}
+            {% if solution.problem_number %}
+            <span class="problem-number">#{{ solution.problem_number }}</span>
+            {% endif %}
+        </li>
+        {% endfor %}
+    </ul>
+    {% endfor %}
+</div>

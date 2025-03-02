@@ -1,0 +1,35 @@
+---
+layout: default
+title: Home
+---
+
+<div class="home">
+    <h1 class="page-heading">Latest LeetCode Solutions</h1>
+    
+    <ul class="post-list">
+        {% assign solutions = site.solutions | sort: 'date' | reverse %}
+        {% for solution in solutions limit:10 %}
+        <li class="post-item">
+            <h2>
+                <a class="post-link" href="{{ solution.url | relative_url }}">{{ solution.title }}</a>
+            </h2>
+            <div class="post-meta">
+                <time datetime="{{ solution.date | date_to_xmlschema }}">{{ solution.date | date: "%B %d, %Y" }}</time>
+                {% if solution.difficulty %}
+                <span class="difficulty {{ solution.difficulty | downcase }}">{{ solution.difficulty }}</span>
+                {% endif %}
+            </div>
+            <div class="post-excerpt">
+                {{ solution.excerpt }}
+            </div>
+            <a href="{{ solution.url | relative_url }}" class="read-more">Read full solution &rarr;</a>
+        </li>
+        {% endfor %}
+    </ul>
+    
+    {% if site.solutions.size > 10 %}
+    <div class="see-all">
+        <a href="{{ '/archive/' | relative_url }}" class="read-more">See all solutions &rarr;</a>
+    </div>
+    {% endif %}
+</div>

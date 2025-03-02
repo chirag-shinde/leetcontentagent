@@ -1,0 +1,54 @@
+---
+layout: default
+---
+
+<article class="solution">
+    <header class="solution-header">
+        <h1 class="solution-title">{{ page.title }}</h1>
+        <div class="solution-meta">
+            <div class="problem-info">
+                <span class="difficulty {{ page.difficulty | downcase }}">{{ page.difficulty }}</span>
+                {% if page.problem_number %}
+                <span class="problem-number">#{{ page.problem_number }}</span>
+                {% endif %}
+                {% if page.leetcode_url %}
+                <a href="{{ page.leetcode_url }}" class="leetcode-link" target="_blank">View on LeetCode</a>
+                {% endif %}
+            </div>
+            
+            <div class="tags">
+                {% for tag in page.tags %}
+                <span class="tag">{{ tag }}</span>
+                {% endfor %}
+            </div>
+        </div>
+    </header>
+
+    <div class="problem-statement">
+        <h2>Problem Statement</h2>
+        {{ page.problem_statement | markdownify }}
+    </div>
+
+    <div class="solution-approach">
+        <h2>Approach</h2>
+        {{ page.approach | markdownify }}
+    </div>
+
+    <div class="solution-code">
+        <h2>Code Solution</h2>
+        {% highlight python %}
+{{ page.code }}
+        {% endhighlight %}
+    </div>
+
+    <div class="solution-explanation">
+        <h2>Explanation</h2>
+        {{ content }}
+    </div>
+
+    <div class="solution-complexity">
+        <h2>Complexity Analysis</h2>
+        <p><strong>Time Complexity:</strong> {{ page.time_complexity }}</p>
+        <p><strong>Space Complexity:</strong> {{ page.space_complexity }}</p>
+    </div>
+</article>
