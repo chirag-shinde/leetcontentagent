@@ -253,6 +253,7 @@ def create_solution_post(solution_info: Dict, explanation: Dict) -> None:
         title=f"LeetCode {solution_info['problem_number']}: {solution_info['title']}",
         date=datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
         slug=solution_info["problem_slug"],  # Add slug for permalink
+        permalink=f"/solutions/{solution_info['problem_slug']}/",  # Explicit permalink
         problem_number=solution_info["problem_number"],
         difficulty=solution_info["difficulty"],
         leetcode_url=solution_info["leetcode_url"],

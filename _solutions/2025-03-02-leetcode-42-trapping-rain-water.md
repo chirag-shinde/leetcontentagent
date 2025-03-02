@@ -2,6 +2,7 @@
 title: "LeetCode 42: Trapping Rain Water"
 date: 2025-03-02 22:41:00
 slug: trapping-rain-water
+permalink: /solutions/trapping-rain-water/
 problem_number: 42
 difficulty: Hard
 leetcode_url: https://leetcode.com/problems/trapping-rain-water/
